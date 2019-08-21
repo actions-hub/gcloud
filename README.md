@@ -7,7 +7,7 @@ GitHub Action which allows to interact with [Google Cloud Platform](https://clou
 ## Usage
 To use gcloud in you workflow use:
 
-```sh
+```yaml
 - uses: exelban/gcloud@master
   env:
     PROJECT_ID: test
@@ -18,7 +18,7 @@ To use gcloud in you workflow use:
 
 If you prefer to use a docker image:
 
-```sh
+```yaml
 - uses: 'docker://exelban/gcloud:latest'
   env:
     PROJECT_ID: test
@@ -37,7 +37,7 @@ To encode a JSON file use: `base64 ~/<account_id>.json`
 
 ### Example
 
-```sh
+```yaml
 name: gcloud
 on: [push]
 
