@@ -30,7 +30,7 @@ If you prefer to use a docker image:
 In args put command which need to be executed.
 
 ### Secrets
-`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.84485854.-650438822.1565472343). Required Base64 encoded service account key exported as JSON.
+`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). Required Base64 encoded service account key exported as JSON.
 To encode a JSON file use: `base64 ~/<account_id>.json`
 
 `PROJECT_ID` - must to be provided to activate a specific project.
