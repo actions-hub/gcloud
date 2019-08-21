@@ -2,8 +2,8 @@ FROM google/cloud-sdk:258.0.0-alpine
 
 LABEL name="gcloud"
 LABEL version="1.0.0"
-LABEL repository="http://github.com/exelban/gcloud"
-LABEL homepage="http://github.com/exelban/gcloud"
+LABEL repository="https://github.com/exelban/gcloud"
+LABEL homepage="https://github.com/exelban/gcloud"
 LABEL maintainer="Serhiy Mytrovtsiy <mitrovtsiy@ukr.net>"
 
 LABEL com.github.actions.name="Google Cloud Platform (GCP) CLI - gcloud"
