@@ -53,22 +53,5 @@ jobs:
         args: info
 ```
 
-#### Dynamic `GOOGLE_PROJECT_ID`
-```sh
-name: gcloud
-on: [push]
-
-jobs:
-  deploy:
-    name: Deploy
-    steps:
-    - uses: exelban/gcloud@master
-      env:
-        PROJECT_ID: test
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        args: info
-```
-
 ## Licence
 [MIT License](https://github.com/exelban/gcloud/blob/master/LICENSE)
