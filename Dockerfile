@@ -11,7 +11,7 @@ LABEL com.github.actions.description="GitHub action with all the components of t
 LABEL com.github.actions.icon="cloud"
 LABEL com.github.actions.color="blue"
 
-COPY README.md /
+COPY LICENSE README.md /
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
