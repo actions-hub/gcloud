@@ -50,7 +50,7 @@ jobs:
         PROJECT_ID: test
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-          args: info
+        args: info
 ```
 
 #### Dynamic `GOOGLE_PROJECT_ID`
@@ -67,7 +67,7 @@ jobs:
         PROJECT_ID: test
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-          args: info
+        args: info
 ```
 
 ## Licence
