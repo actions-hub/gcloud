@@ -42,15 +42,16 @@ name: gcloud
 on: [push]
 
 jobs:
-  info:
-    name: Information
+  deploy:
+    name: Deploy
     steps:
-    - uses: exelban/gcloud@master
-      env:
-        PROJECT_ID: test
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        args: info
+      - uses: actions/checkout@v1
+      - uses: exelban/gcloud@master
+        env:
+          PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+          APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        with:
+          args: app deploy app.yaml
 ```
 
 ## Licence
