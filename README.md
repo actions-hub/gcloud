@@ -44,6 +44,7 @@ on: [push]
 jobs:
   deploy:
     name: Deploy
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: exelban/gcloud@master
