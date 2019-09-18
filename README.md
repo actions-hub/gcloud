@@ -16,17 +16,6 @@ To use gcloud in your workflow use:
     args: info
 ```
 
-If you prefer to use a docker image:
-
-```yaml
-- uses: 'docker://exelban/gcloud:latest'
-  env:
-    PROJECT_ID: test
-    APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-  with:
-    args: info
-```
-
 Args put command which needs to be executed.
 
 ### Secrets
@@ -45,6 +34,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v1
       - uses: exelban/gcloud@master

@@ -7,7 +7,7 @@ LABEL homepage="https://github.com/exelban/gcloud"
 LABEL maintainer="Serhiy Mytrovtsiy <mitrovtsiy@ukr.net>"
 
 LABEL com.github.actions.name="Google Cloud Platform (GCP) CLI - gcloud"
-LABEL com.github.actions.description="GitHub action with all the components of the Google Cloud SDK"
+LABEL com.github.actions.description="GitHub Action with all the components of the Google Cloud SDK"
 LABEL com.github.actions.icon="cloud"
 LABEL com.github.actions.color="blue"
 
