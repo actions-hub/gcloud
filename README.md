@@ -1,8 +1,11 @@
 # gcloud
 
-GitHub Action which allows interacting with [Google Cloud Platform](https://cloud.google.com).
+[![](https://github.com/exelban/gcloud/workflows/GitHub%20Registry%20:latest/badge.svg)](https://github.com/exelban/gcloud/actions)
+[![](https://github.com/exelban/gcloud/workflows/GitHub%20Registry%20:version/badge.svg)](https://github.com/exelban/gcloud/actions)
 
 [![Preview](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/gcloud/logo_gcp_vertical_rgb.png?v=1)](https://cloud.google.com)
+
+GitHub Action which allows interacting with [Google Cloud Platform](https://cloud.google.com).
 
 ## Usage
 To use gcloud in your workflow use:
