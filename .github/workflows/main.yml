@@ -1,0 +1,30 @@
+name: GitHub Registry :latest
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@master
+          
+      - name: Login to github registry
+        uses: actions/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+
+      - name: Build image
+        uses: actions/docker/cli@master
+        with:
+          args: build -t docker.pkg.github.com/${GITHUB_REPOSITORY}/cli:latest .
+
+      - name: Push to registry
+        uses: actions/docker/cli@master
+        with:
+          args: push docker.pkg.github.com/${GITHUB_REPOSITORY}/cli:latest
