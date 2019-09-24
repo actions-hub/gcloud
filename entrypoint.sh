@@ -17,4 +17,8 @@ echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
 gcloud auth activate-service-account --key-file=/tmp/account.json
 gcloud config set project "$PROJECT_ID"
 
-sh -c "gcloud $*"
+echo ::add-path::/google-cloud-sdk/bin/gcloud
+
+if [[ ! $# -eq 0 ]] ; then
+    sh -c "gcloud $*"
+fi
