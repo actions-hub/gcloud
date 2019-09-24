@@ -8,8 +8,6 @@
 GitHub Action which allows interacting with [Google Cloud Platform](https://cloud.google.com).
 
 ## Usage
-
-### As one command:
 To use gcloud in your workflow use:
 
 ```yaml
@@ -19,17 +17,6 @@ To use gcloud in your workflow use:
     APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
   with:
     args: info
-```
-
-### Use gcloud globally
-```yaml
-- uses: exelban/gcloud@master
-  env:
-    PROJECT_ID: test
-    APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-    
-- name: Example command
-  run: gcloud version
 ```
 
 Args put command which needs to be executed.
@@ -81,7 +68,9 @@ jobs:
           APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
       
       - name: Deploy
-        run: gcloud app deploy app.yaml
+        uses: exelban/gcloud@master
+        with: 
+          args: app deploy app.yaml
 ```
 
 ## Licence
