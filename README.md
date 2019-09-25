@@ -28,8 +28,6 @@ To encode a JSON file use: `base64 ~/<account_id>.json`
 `PROJECT_ID` - must be provided to activate a specific project.
 
 ### Example
-
-### On step
 ```yaml
 name: gcloud
 on: [push]
@@ -46,30 +44,6 @@ jobs:
           PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
         with:
-          args: app deploy app.yaml
-```
-
-### Multiply steps
-
-```yaml
-name: gcloud
-on: [push]
-
-jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-      - uses: exelban/gcloud@master
-        env:
-          PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
-          APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-      
-      - name: Deploy
-        uses: exelban/gcloud@master
-        with: 
           args: app deploy app.yaml
 ```
 
