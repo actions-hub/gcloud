@@ -1,0 +1,71 @@
+name: SDK version upgrade
+
+on:
+  schedule:
+    - cron: "* */6 * * *"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Checkout repo
+        run: |
+          git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
+          git clone https://github.com/exelban/gcloud .
+          
+      - name: Check if new version exist
+        id: check
+        run: |
+          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep -m 1 '"name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          LATEST_VERSION=$(curl --silent "https://api.github.com/repos/exelban/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
+          
+          newer() {
+            [ "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+          }
+          
+          if [ "$SDK_VERSION" != "$LATEST_VERSION" ]; then
+            if [ "$LATEST_VERSION" = "`echo -e "$SDK_VERSION\n$LATEST_VERSION" | sort -V | head -n1`" ]; then
+              if [ "$DOCKER_VERSION" == "$LATEST_VERSION" ]; then
+                echo "New version detected: $SDK_VERSION. Latest in this repo: $LATEST_VERSION. Updating..."
+              
+                echo ::set-output name=exist::"yes"
+                echo ::set-env name=SDK_VERSION::$SDK_VERSION
+                echo ::set-env name=LATEST_VERSION::$LATEST_VERSION
+              else
+                echo ::error::"Tag version in Dockerfile ($DOCKER_VERSION) is not the same as the latest release ($LATEST_VERSION)."
+                exit 1
+              fi
+            else
+              echo ::set-output name=exist::"no"
+            fi
+          else
+            echo ::set-output name=exist::"no"
+          fi
+          
+      - name: Modify Dockerfile
+        id: modify
+        if: steps.check.outputs.exist == 'yes'
+        run: |
+          git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
+          git config --global user.name "Serhiy Mytrovtsiy"
+          git config --global user.email "mitrovtsiy@ukr.net"
+          
+          git checkout master
+          
+          FROM_LINE="FROM google\/cloud-sdk:$LATEST_VERSION-alpine"
+          TO_LINE="FROM google\/cloud-sdk:$SDK_VERSION-alpine"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/Dockerfile
+          
+          git add $GITHUB_WORKSPACE/Dockerfile
+          git commit -m "updated gcloud-sdk to $SDK_VERSION"
+          git push
+          
+          echo ::set-output name=tag::$SDK_VERSION
+
+      - name: Create new release
+        if: steps.modify.outputs.tag != '0'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.modify.outputs.tag }}
+          token: ${{ secrets.GH_TOKEN }}
