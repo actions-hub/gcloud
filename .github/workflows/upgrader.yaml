@@ -2,7 +2,7 @@ name: SDK version upgrade
 
 on:
   schedule:
-    - cron: "* */6 * * *"
+    - cron: "0 */6 * * *"
 
 jobs:
   check:
