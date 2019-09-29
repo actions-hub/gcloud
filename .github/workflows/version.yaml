@@ -1,9 +1,8 @@
 name: GitHub Registry :version
 
-on: 
-   push:
-     tags:
-       - '*'
+on:
+  release:
+    types: [published]
 
 jobs:
   build:
