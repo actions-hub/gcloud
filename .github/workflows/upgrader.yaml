@@ -20,9 +20,9 @@ jobs:
           LATEST_VERSION=$(curl --silent "https://api.github.com/repos/exelban/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
           
-          newer() {
-            [ "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
-          }
+          echo $SDK_VERSION
+          echo $LATEST_VERSION
+          echo $DOCKER_VERSION
           
           if [ "$SDK_VERSION" != "$LATEST_VERSION" ]; then
             if [ "$LATEST_VERSION" = "`echo -e "$SDK_VERSION\n$LATEST_VERSION" | sort -V | head -n1`" ]; then
