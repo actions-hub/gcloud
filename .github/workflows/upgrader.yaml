@@ -16,7 +16,7 @@ jobs:
       - name: Check if new version exist
         id: check
         run: |
-          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep -m 1 '"name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | sort -V -r | head -n 1)
           LATEST_VERSION=$(curl --silent "https://api.github.com/repos/exelban/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
           
