@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:265.0.0-alpine
+FROM google/cloud-sdk:266.0.0-alpine
 
 LABEL name="gcloud"
 LABEL version="1.0.0"
