@@ -1,0 +1,16 @@
+name: 'Google Cloud Platform (GCP) CLI - gcloud'
+description: 'GitHub Action with all the components of the Google Cloud SDK'
+author: 'Serhiy Mytrovtsiy <mitrovtsiy@ukr.net>'
+branding:
+  icon: 'cloud'
+  color: 'blue'
+inputs:
+  PROJECT_ID:
+    description: 'Project id'
+    required: true
+  APPLICATION_CREDENTIALS:
+    description: 'GCP authorization credentials'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
