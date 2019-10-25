@@ -11,13 +11,13 @@ jobs:
       - name: Checkout repo
         run: |
           git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
-          git clone https://github.com/exelban/gcloud .
+          git clone https://github.com/actions-hub/gcloud .
           
       - name: Check if new version exist
         id: check
         run: |
           SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | sort -V -r | head -n 1)
-          LATEST_VERSION=$(curl --silent "https://api.github.com/repos/exelban/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          LATEST_VERSION=$(curl --silent "https://api.github.com/repos/actions-hub/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
           
           echo $SDK_VERSION

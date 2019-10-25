@@ -8,7 +8,7 @@ GitHub Action which allows interacting with [Google Cloud Platform](https://clou
 To use gcloud in your workflow use:
 
 ```yaml
-- uses: exelban/gcloud@master
+- uses: actions-hub/gcloud@master
   env:
     PROJECT_ID: test
     APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: exelban/gcloud@master
+      - uses: actions-hub/gcloud@master
         env:
           PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
@@ -45,4 +45,4 @@ jobs:
 ```
 
 ## Licence
-[MIT License](https://github.com/exelban/gcloud/blob/master/LICENSE)
+[MIT License](https://github.com/actions-hub/gcloud/blob/master/LICENSE)
