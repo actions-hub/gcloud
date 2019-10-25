@@ -24,10 +24,10 @@ jobs:
 
       - name: Build image
         if: success()
-        run: docker build -t docker.pkg.github.com/${GITHUB_REPOSITORY}:${IMAGE_TAG} .
+        run: docker build -t docker.pkg.github.com/${GITHUB_REPOSITORY}/cli:${IMAGE_TAG} .
 
       - name: Push to docker registry
         if: success()
         uses: actions-hub/docker/cli@master
         with:
-          args: push docker.pkg.github.com/${GITHUB_REPOSITORY}:${IMAGE_TAG}
+          args: push docker.pkg.github.com/${GITHUB_REPOSITORY}/cli:${IMAGE_TAG}
