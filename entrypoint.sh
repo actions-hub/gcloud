@@ -20,7 +20,7 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
 fi
 
 
-authorized_clis=(gcloud gsutil)
+authorized_clis=("gcloud" "gsutil")
 echo ::add-path::/google-cloud-sdk/bin/gcloud
 echo ::add-path::/google-cloud-sdk/bin/gsutil
 
