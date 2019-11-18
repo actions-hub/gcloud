@@ -19,16 +19,12 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
    gcloud config set project "$PROJECT_ID"
 fi
 
-
-authorized_clis=("gcloud" "gsutil")
 echo ::add-path::/google-cloud-sdk/bin/gcloud
 echo ::add-path::/google-cloud-sdk/bin/gsutil
 
 command="gcloud"
-if [ -n "$CLI" ]; then
-   if [[ " ${authorized_clis[@]} " =~ " $CLI " ]]; then
-      command=$CLI
-   fi
+if [ "$CLI" == "gsutil" ]; then
+   command=$CLI
 fi
 
 if [[ ! $# -eq 0 ]] ; then
