@@ -20,7 +20,13 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
 fi
 
 echo ::add-path::/google-cloud-sdk/bin/gcloud
+echo ::add-path::/google-cloud-sdk/bin/gsutil
+
+command="gcloud"
+if [ "$CLI" == "gsutil" ]; then
+   command=$CLI
+fi
 
 if [[ ! $# -eq 0 ]] ; then
-    sh -c "gcloud $*"
+    sh -c "$command $*"
 fi
