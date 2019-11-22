@@ -40,8 +40,12 @@ To encode a JSON file use: `base64 ~/<account_id>.json`
 
 `CLI` - (optional) command line tool you want to use. Defaults to `gcloud`, authorized values: `gcloud`, `gsutil`.
 
-### Example
+### Version
+For each new release of gcloud master branch is updated to the latest version. Also, the tag is creating with the same number as the gcloud version. If you want to always have the latest version of gcloud, use `@master` branch. 
+But if you need some specific version of gcloud just use a specific tag. For example `@271.0.0`.
 
+## Example
+### Latest version
 ```yaml
 name: gcloud
 on: [push]
@@ -54,6 +58,26 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+          APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        with:
+          args: app deploy app.yaml
+```
+
+### Specific version
+```yaml
+name: gcloud
+on: [push]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@271.0.0
         env:
           PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
