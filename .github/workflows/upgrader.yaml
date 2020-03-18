@@ -43,9 +43,21 @@ jobs:
             echo ::set-output name=exist::"no"
           fi
           
+      - name: Check if a new version exist in docker hub.
+        id: build
+        if: steps.check.outputs.exist == 'yes'
+        run: |
+          if docker pull google/cloud-sd:$SDK_VERSION > /dev/null; then
+              echo "Docker image exist..."
+              echo ::set-output name=successful::"yes"
+          else
+              echo "Docker image not exist remotly...."
+              echo ::set-output name=successful::"no"
+          fi
+          
       - name: Modify Dockerfile
         id: modify
-        if: steps.check.outputs.exist == 'yes'
+        if: steps.check.outputs.exist == 'yes' && steps.build.outputs.successful == 'yes'
         run: |
           git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
           git config --global user.name "Serhiy Mytrovtsiy"
