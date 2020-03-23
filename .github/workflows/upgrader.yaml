@@ -12,23 +12,34 @@ jobs:
         run: |
           git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
           git clone https://github.com/actions-hub/gcloud .
-          
+
+      - name: Checkout sdk latest
+        uses: exelban/watch-tag@master
+        with:
+          provider: docker
+          repository: google/cloud-sdk
+          env_name: SDK_VERSION
+
+      - name: Checkout gcloud action latest
+        uses: exelban/watch-tag@master
+        with:
+          repository: actions-hub/gcloud
+          env_name: LATEST_VERSION
+
       - name: Check if new version exist
         id: check
         run: |
-          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | sort -V -r | head -n 1)
-          LATEST_VERSION=$(curl --silent "https://api.github.com/repos/actions-hub/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
-          
+
           echo $SDK_VERSION
           echo $LATEST_VERSION
           echo $DOCKER_VERSION
-          
+
           if [ "$SDK_VERSION" != "$LATEST_VERSION" ]; then
             if [ "$LATEST_VERSION" = "`echo -e "$SDK_VERSION\n$LATEST_VERSION" | sort -V | head -n1`" ]; then
               if [ "$DOCKER_VERSION" == "$LATEST_VERSION" ]; then
                 echo "New version detected: $SDK_VERSION. Latest in this repo: $LATEST_VERSION. Updating..."
-              
+
                 echo ::set-output name=exist::"yes"
                 echo ::set-env name=SDK_VERSION::$SDK_VERSION
                 echo ::set-env name=LATEST_VERSION::$LATEST_VERSION
@@ -42,37 +53,25 @@ jobs:
           else
             echo ::set-output name=exist::"no"
           fi
-          
-      - name: Check if a new version exist in docker hub.
-        id: build
-        if: steps.check.outputs.exist == 'yes'
-        run: |
-          if docker pull google/cloud-sd:$SDK_VERSION > /dev/null; then
-              echo "Docker image exist..."
-              echo ::set-output name=successful::"yes"
-          else
-              echo "Docker image not exist remotly...."
-              echo ::set-output name=successful::"no"
-          fi
-          
+
       - name: Modify Dockerfile
         id: modify
-        if: steps.check.outputs.exist == 'yes' && steps.build.outputs.successful == 'yes'
+        if: steps.check.outputs.exist == 'yes'
         run: |
           git config --global url."https://${{ secrets.GH_TOKEN }}:@github.com/".insteadOf "https://github.com/"
           git config --global user.name "Serhiy Mytrovtsiy"
           git config --global user.email "mitrovtsiy@ukr.net"
-          
+
           git checkout master
-          
+
           FROM_LINE="FROM google\/cloud-sdk:$LATEST_VERSION-alpine"
           TO_LINE="FROM google\/cloud-sdk:$SDK_VERSION-alpine"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/Dockerfile
-          
+
           git add $GITHUB_WORKSPACE/Dockerfile
           git commit -m "updated gcloud-sdk to $SDK_VERSION"
           git push
-          
+
           echo ::set-output name=tag::$SDK_VERSION
 
       - name: Create new release
