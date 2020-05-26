@@ -2,21 +2,20 @@
 
 set -e
 
-if [ ! -d "$HOME/.config/gcloud" ]; then
-   if [ -z "${APPLICATION_CREDENTIALS-}" ]; then
-      echo "APPLICATION_CREDENTIALS not found. Exiting...."
-      exit 1
-   fi
 
-   if [ -z "${PROJECT_ID-}" ]; then
-      echo "PROJECT_ID not found. Exiting...."
-      exit 1
-   fi
+if [ -z "${APPLICATION_CREDENTIALS-}" ]; then
+  echo "APPLICATION_CREDENTIALS not found. Exiting...."
+  exit 1
+else
+  echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
+  gcloud auth activate-service-account --key-file=/tmp/account.json
+fi
 
-   echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
-
-   gcloud auth activate-service-account --key-file=/tmp/account.json
-   gcloud config set project "$PROJECT_ID"
+if [ -z "${PROJECT_ID-}" ]; then
+  echo "PROJECT_ID not found. Exiting...."
+  exit 1
+else
+  gcloud config set project "$PROJECT_ID"
 fi
 
 echo ::add-path::/google-cloud-sdk/bin/gcloud
