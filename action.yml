@@ -10,10 +10,10 @@ inputs:
     required: true
   project_id:
     description: 'The project id for your project.'
-    required: true
+    required: false # Set to false for backwards capability but should be provided using with.
   application_credentials:
     description: 'The application credentials for accessing your GCP account.'
-    required: true
+    required: false # Set to false for backwards capability but should be provided using with.
 runs:
   using: 'docker'
   image: 'Dockerfile'
