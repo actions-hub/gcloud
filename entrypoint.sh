@@ -27,7 +27,7 @@ then
   exit 1
 fi
 
-# This allows for backwards capability. The old way is setting the env, but this
+# This allows for backwards compatible. The old way is setting the env, but this
 # handles env not set use input.
 if [ -z $PROJECT_ID ]
 then
