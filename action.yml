@@ -8,6 +8,12 @@ inputs:
   args:
     description: 'Arguments for the CLI command'
     required: true
+  project_id:
+    description: 'The project id for your project.'
+    required: true
+  application_credentials:
+    description: 'The application credentials for accessing your GCP account.'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
