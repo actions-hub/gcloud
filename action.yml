@@ -5,12 +5,13 @@ branding:
   icon: 'cloud'
   color: 'blue'
 inputs:
-  PROJECT_ID:
-    description: 'Project id'
+  args:
+    description: 'Arguments for the CLI command'
     required: true
-  APPLICATION_CREDENTIALS:
-    description: 'GCP authorization credentials'
-    required: true
+  cli:
+    description: 'cli command to run (gcloud and gsutil available)'
+    default: 'gcloud'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'

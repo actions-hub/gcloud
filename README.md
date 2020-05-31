@@ -17,18 +17,16 @@ To use gcloud in your workflow use:
     args: info
 ```
 
-Args put command which needs to be executed.
-
-You can also use `gsutil` which is packaged in the Google Cloud SDK.
+You can also use `gsutil` from Google Cloud SDK package.
 
 ```yaml
 - uses: actions-hub/gcloud@master
   env:
     PROJECT_ID: test
     APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-    CLI: gsutil
   with:
     args: cp your-file.txt gs://your-bucket/
+    cli: gsutil
 ```
 
 ### Secrets
@@ -38,7 +36,11 @@ To encode a JSON file use: `base64 ~/<account_id>.json`
 
 `PROJECT_ID` - must be provided to activate a specific project.
 
-`CLI` - (optional) command line tool you want to use. Defaults to `gcloud`, authorized values: `gcloud`, `gsutil`.
+### Inputs
+
+`args` - command to run.
+
+`cli` - (optional) command line tool you want to use. Defaults to `gcloud`, allowed values: `gcloud`, `gsutil`.
 
 ### Version
 For each new release of gcloud master branch is updated to the latest version. Also, the tag is creating with the same number as the gcloud version. If you want to always have the latest version of gcloud, use `@master` branch. 
@@ -61,6 +63,35 @@ jobs:
         env:
           PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        with:
+          args: app deploy app.yaml
+```
+
+### Multistep
+```yaml
+name: gcloud
+on: [push]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: "deploy to project A"  
+        uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_A}}
+          APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        with:
+          args: app deploy app.yaml
+      
+      - name: "deploy to project B"  
+        uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID_B}}
         with:
           args: app deploy app.yaml
 ```
