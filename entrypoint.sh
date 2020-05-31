@@ -24,7 +24,7 @@ else
     echo "Using credentials from previous session..."
     previous_id=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
 
-    if [ "$previous_id" != "$PROJECT_ID" ]; then
+    if [ ! -z "${PROJECT_ID-}" ] && [ "$previous_id" != "$PROJECT_ID" ]; then
         echo "Project id from the previous session is not the same as in this. Trying to set up new project id..."
 
         if [ -z "${PROJECT_ID-}" ]; then
