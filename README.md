@@ -32,14 +32,14 @@ You can also use `gsutil` from Google Cloud SDK package.
 ### Secrets
 
 `APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). Required Base64 encoded service account key exported as JSON.
-To encode a JSON file use: `base64 ~/<account_id>.json`. If you don't want to encode it with `base64`, set `BASE64_ENCODED=false`:
+To encode a JSON file use: `base64 ~/<account_id>.json`. If you don't want to encode it with `base64`, set `BASE64_ENCODED_SECRET=false`:
 
 ```yaml
 - uses: actions-hub/gcloud@master
   env:
     PROJECT_ID: test
     APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-    BASE64_ENCODED: false
+    BASE64_ENCODED_SECRET: false
   with:
     args: cp your-file.txt gs://your-bucket/
     cli: gsutil

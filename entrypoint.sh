@@ -2,7 +2,7 @@
 
 set -e
 
-export BASE64_ENCODED=${BASE64_ENCODED:-true}
+export BASE64_ENCODED_SECRET=${BASE64_ENCODED_SECRET:-true}
 
 if [ ! -d "$HOME/.config/gcloud" ]; then
     if [ -z "${APPLICATION_CREDENTIALS-}" ]; then
@@ -15,7 +15,7 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
         exit 1
     fi
 
-    if [ "$BASE64_ENCODED" = true ]; then
+    if [ "$BASE64_ENCODED_SECRET" = true ]; then
       echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
     else
       echo "$APPLICATION_CREDENTIALS" > /tmp/account.json
