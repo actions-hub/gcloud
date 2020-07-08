@@ -31,8 +31,8 @@ You can also use `gsutil` from Google Cloud SDK package.
 
 ### Secrets
 
-`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). 
-You can also pass a base64 encoded string. To encode a JSON file use: `base64 ~/<account_id>.json`. 
+`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). Required Base64 encoded service account key exported as JSON.
+To encode a JSON file use: `base64 ~/<account_id>.json`
 
 `PROJECT_ID` - must be provided to activate a specific project.
 

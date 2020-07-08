@@ -3,7 +3,7 @@ name: test
 on: [push]
 
 jobs:
-  base64-test:
+  info-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -12,18 +12,6 @@ jobs:
         env:
           PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-        with:
-          args: info
-
-  json-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-
-      - uses: ./
-        env:
-          PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS_JSON }}
         with:
           args: info
 
