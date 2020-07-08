@@ -14,7 +14,7 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
     fi
 
     # Check if $APPLICATION_CREDENTIALS is a valid base64 encoded string or not
-    if [ "$APPLICATION_CREDENTIALS" = "$(echo $APPLICATION_CREDENTIALS | base64 --decode | base64)" ]; then
+    if [ "$APPLICATION_CREDENTIALS" = "$(echo "$APPLICATION_CREDENTIALS" | base64 --decode 2>/dev/null | base64)" ]; then
       echo "APPLICATION_CREDENTIALS is Base64 Encoded"
       echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
     else
