@@ -13,7 +13,14 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
         exit 1
     fi
 
-    echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
+    # Check if $APPLICATION_CREDENTIALS is a valid base64 encoded string or not
+    if [ "$APPLICATION_CREDENTIALS" = "$(echo "$APPLICATION_CREDENTIALS" | base64 --decode 2>/dev/null | base64)" ]; then
+      echo "APPLICATION_CREDENTIALS is Base64 Encoded"
+      echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
+    else
+      echo "APPLICATION_CREDENTIALS is not Base64 Encoded"
+      echo "$APPLICATION_CREDENTIALS" > /tmp/account.json
+    fi
 
     gcloud auth activate-service-account --key-file=/tmp/account.json
     gcloud config set project "$PROJECT_ID"
