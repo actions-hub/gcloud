@@ -13,7 +13,7 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
         exit 1
     fi
 
-    if [ "$APPLICATION_CREDENTIALS" = "$(echo "$APPLICATION_CREDENTIALS" | base64 -d | base64  | tr -d \\n)" ]; then
+    if [ "$(echo "$APPLICATION_CREDENTIALS" | tr -d \\n)" = "$(echo "$APPLICATION_CREDENTIALS" | base64 -d | base64  | tr -d \\n)" ]; then
       echo "APPLICATION_CREDENTIALS is Base64 Encoded"
       echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
     else
