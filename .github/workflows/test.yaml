@@ -40,3 +40,22 @@ jobs:
       - uses: ./
         with:
           args: info
+
+  multistep-different-config-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: ./
+        env:
+          PROJECT_ID: test-1
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        with:
+          args: info
+
+      - uses: ./
+        env:
+          PROJECT_ID: test-2
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        with:
+          args: info
