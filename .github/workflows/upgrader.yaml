@@ -16,7 +16,7 @@ jobs:
       - name: Check if new version exist
         id: check
         run: |
-          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | sort -V -r | head -n 1)
+          SDK_VERSION=$(curl --silent "https://api.github.com/repos/GoogleCloudPlatform/cloud-sdk-docker/tags" | tac | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | sort -V -r | sed '1d' | head -n 1)
           LATEST_VERSION=$(curl --silent "https://api.github.com/repos/actions-hub/gcloud/releases/latest" | tac | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           DOCKER_VERSION=$(cat $GITHUB_WORKSPACE/Dockerfile | grep "FROM google/cloud-sdk:" | sed -E 's/FROM google\/cloud-sdk://' | sed -E 's/-alpine//')
 
@@ -30,8 +30,8 @@ jobs:
                 echo "New version detected: $SDK_VERSION. Latest in this repo: $LATEST_VERSION. Updating..."
 
                 echo ::set-output name=exist::"yes"
-                echo ::set-env name=SDK_VERSION::$SDK_VERSION
-                echo ::set-env name=LATEST_VERSION::$LATEST_VERSION
+                echo "SDK_VERSION=${SDK_VERSION}" >> $GITHUB_ENV
+                echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
               else
                 echo ::error::"Tag version in Dockerfile ($DOCKER_VERSION) is not the same as the latest release ($LATEST_VERSION)."
                 exit 1
