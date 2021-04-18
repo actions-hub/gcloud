@@ -9,7 +9,7 @@ inputs:
     description: 'Arguments for the CLI command'
     required: true
   cli:
-    description: 'cli command to run (gcloud and gsutil available)'
+    description: 'cli command to run (gcloud, gsutil and kubectl available)'
     default: 'gcloud'
     required: false
 runs:
