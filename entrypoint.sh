@@ -65,6 +65,10 @@ if [ "$CLI" = "gsutil" ] || [ "$INPUT_CLI" = "gsutil" ]; then
     command="gsutil"
 fi
 
+if [ "$CLI" = "kubectl" ] || [ "$INPUT_CLI" = "kubectl" ]; then
+    command="kubectl"
+fi
+
 if [ ! $# -eq 0 ]; then
     sh -c "$command $*"
 fi
