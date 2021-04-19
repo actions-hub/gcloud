@@ -58,10 +58,15 @@ fi
 
 echo "/google-cloud-sdk/bin/gcloud" >> $GITHUB_PATH
 echo "/google-cloud-sdk/bin/gsutil" >> $GITHUB_PATH
+echo "/google-cloud-sdk/bin/kubectl" >>$GITHUB_PATH
 
 command="gcloud"
 if [ "$CLI" = "gsutil" ] || [ "$INPUT_CLI" = "gsutil" ]; then
     command="gsutil"
+fi
+
+if [ "$CLI" = "kubectl" ] || [ "$INPUT_CLI" = "kubectl" ]; then
+    command="kubectl"
 fi
 
 if [ ! $# -eq 0 ]; then

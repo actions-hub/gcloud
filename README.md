@@ -29,6 +29,18 @@ You can also use `gsutil` from Google Cloud SDK package.
     cli: gsutil
 ```
 
+You can also use `kubectl` from Google Cloud SDK package.
+
+```yaml
+- uses: actions-hub/gcloud@master
+  env:
+    PROJECT_ID: test
+    APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  with:
+    args: create deployment hello-server --image=gcr.io/google-samples/hello-app:1.0
+    cli: kubectl
+```
+
 ### Secrets
 
 `APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). 
