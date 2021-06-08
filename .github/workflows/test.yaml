@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Replace image in action.yml by local Dockerfile
+        run: |
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          TO_LINE="image: Dockerfile"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+
       - uses: ./
         env:
           PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
@@ -20,6 +26,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Replace image in action.yml by local Dockerfile
+        run: |
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          TO_LINE="image: Dockerfile"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+
       - uses: ./
         env:
           PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
@@ -31,6 +43,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
+      - name: Replace image in action.yml by local Dockerfile
+        run: |
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          TO_LINE="image: Dockerfile"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
       - uses: ./
         env:
@@ -45,6 +63,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
+      - name: Replace image in action.yml by local Dockerfile
+        run: |
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          TO_LINE="image: Dockerfile"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
       - uses: ./
         env:
