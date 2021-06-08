@@ -66,7 +66,7 @@ jobs:
             echo "Docker hub returns $status_code"
           fi
 
-      - name: Modify Dockerfile
+      - name: Modify Dockerfile and action.yml
         id: modify
         if: success() && steps.check.outputs.newest == 'yes' && steps.test.outputs.exist == 'yes'
         run: |
@@ -79,6 +79,10 @@ jobs:
           FROM_LINE="FROM google\/cloud-sdk:$LATEST_VERSION-alpine"
           TO_LINE="FROM google\/cloud-sdk:$SDK_VERSION-alpine"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/Dockerfile
+
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:$LATEST_VERSION"
+          TO_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:$SDK_VERSION"
+          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
           git add $GITHUB_WORKSPACE/Dockerfile
           git commit -m "updated gcloud-sdk to $SDK_VERSION"
