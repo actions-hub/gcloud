@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  IMAGE_NAME: actions-hub-gcloud
+  IMAGE_NAME: gcloud
 
 jobs:
   build:

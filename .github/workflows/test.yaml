@@ -10,7 +10,7 @@ jobs:
 
       - name: Replace image in action.yml by local Dockerfile
         run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
           TO_LINE="image: Dockerfile"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
@@ -28,7 +28,7 @@ jobs:
 
       - name: Replace image in action.yml by local Dockerfile
         run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
           TO_LINE="image: Dockerfile"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Replace image in action.yml by local Dockerfile
         run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
           TO_LINE="image: Dockerfile"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
@@ -66,7 +66,7 @@ jobs:
 
       - name: Replace image in action.yml by local Dockerfile
         run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/actions-hub-gcloud:.*"
+          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
           TO_LINE="image: Dockerfile"
           sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
 
