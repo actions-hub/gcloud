@@ -14,4 +14,4 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: ghcr.io/actions-hub/actions-hub-gcloud:343.0.0
+  image: 'Dockerfile'
