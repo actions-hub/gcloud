@@ -6,13 +6,7 @@ jobs:
   json-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - name: Replace image in action.yml by local Dockerfile
-        run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
-          TO_LINE="image: Dockerfile"
-          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+      - uses: actions/checkout@v2
 
       - uses: ./
         env:
@@ -24,13 +18,7 @@ jobs:
   base64-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - name: Replace image in action.yml by local Dockerfile
-        run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
-          TO_LINE="image: Dockerfile"
-          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+      - uses: actions/checkout@v2
 
       - uses: ./
         env:
@@ -42,13 +30,7 @@ jobs:
   multistep-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - name: Replace image in action.yml by local Dockerfile
-        run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
-          TO_LINE="image: Dockerfile"
-          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+      - uses: actions/checkout@v2
 
       - uses: ./
         env:
@@ -62,13 +44,7 @@ jobs:
   multistep-different-config-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - name: Replace image in action.yml by local Dockerfile
-        run: |
-          FROM_LINE="image: ghcr.io\/${{ github.repository_owner }}\/gcloud:.*"
-          TO_LINE="image: Dockerfile"
-          sed -i "s/${FROM_LINE}/${TO_LINE}/" $GITHUB_WORKSPACE/action.yml
+      - uses: actions/checkout@v2
 
       - uses: ./
         env:
@@ -83,3 +59,16 @@ jobs:
           APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         with:
           args: info
+
+  k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./
+        env:
+          PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS_JSON }}
+        with:
+          cli: kubectl
+          args: version
