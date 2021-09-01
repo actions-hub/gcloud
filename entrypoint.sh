@@ -70,6 +70,10 @@ if [ "$CLI" = "kubectl" ] || [ "$INPUT_CLI" = "kubectl" ]; then
     command="kubectl"
 fi
 
+if [ "$command" = "gcloud" ] && [ "$1" = "beta" ]; then
+    gcloud components install beta
+fi
+
 if [ ! $# -eq 0 ]; then
     sh -c "$command $*"
 fi
