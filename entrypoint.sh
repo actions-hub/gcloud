@@ -5,12 +5,18 @@ set -e
 PREVIOUS_PROJECT_ID=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
 
 set_up_a_credentials() {
-    if [ "$(echo "$APPLICATION_CREDENTIALS" | tr -d \\n)" = "$(echo "$APPLICATION_CREDENTIALS" | base64 -d | base64  | tr -d \\n)" ]; then
-        echo "APPLICATION_CREDENTIALS is Base64 Encoded"
-        echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
+    if [ -n "${CLOUDSDK_AUTH_ACCESS_TOKEN}" ]; then
+        echo "CLOUDSDK_AUTH_ACCESS_TOKEN is set; using it for auth"
+        export CLOUDSDK_AUTH_ACCESS_TOKEN
+        return
     else
-        echo "APPLICATION_CREDENTIALS is not Base64 Encoded"
-        echo "$APPLICATION_CREDENTIALS" > /tmp/account.json
+        if [ "$(echo "$APPLICATION_CREDENTIALS" | tr -d \\n)" = "$(echo "$APPLICATION_CREDENTIALS" | base64 -d | base64  | tr -d \\n)" ]; then
+            echo "APPLICATION_CREDENTIALS is Base64 Encoded"
+            echo "$APPLICATION_CREDENTIALS" | base64 -d > /tmp/account.json
+        else
+            echo "APPLICATION_CREDENTIALS is not Base64 Encoded"
+            echo "$APPLICATION_CREDENTIALS" > /tmp/account.json
+        fi
     fi
 
     gcloud auth activate-service-account --key-file=/tmp/account.json
@@ -19,8 +25,8 @@ set_up_a_credentials() {
 if [ ! -d "$HOME/.config/gcloud" ]; then
     echo "Previous configuration not detected"
 
-    if [ -z "${APPLICATION_CREDENTIALS-}" ]; then
-        echo "APPLICATION_CREDENTIALS not found. Exiting...."
+    if [ -z "${APPLICATION_CREDENTIALS-}" -a -z "${CLOUDSDK_AUTH_ACCESS_TOKEN}" ]; then
+        echo "APPLICATION_CREDENTIALS not found and CLOUDSDK_AUTH_ACCESS_TOKEN unset. Exiting...."
         exit 1
     else
         set_up_a_credentials
@@ -28,7 +34,10 @@ if [ ! -d "$HOME/.config/gcloud" ]; then
 else
     echo "Detect credentials from previous session..."
 
-    if [ -n "${APPLICATION_CREDENTIALS-}" ]; then
+    if [ -n "${CLOUDSDK_AUTH_ACCESS_TOKEN}" ]; then
+        echo "CLOUDSDK_AUTH_ACCESS_TOKEN is set; using it for auth"
+        export CLOUDSDK_AUTH_ACCESS_TOKEN
+    elif [ -n "${APPLICATION_CREDENTIALS-}" ]; then
         echo "APPLICATION_CREDENTIALS found. Setting up a credentials...."
         set_up_a_credentials
     else
@@ -75,5 +84,5 @@ if [ "$command" = "gcloud" ] && [ "$1" = "beta" ]; then
 fi
 
 if [ ! $# -eq 0 ]; then
-    sh -c "$command $*"
+    eval "$command $*"
 fi

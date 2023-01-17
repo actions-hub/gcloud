@@ -43,10 +43,36 @@ You can also use `kubectl` from Google Cloud SDK package.
 
 ### Secrets
 
-`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey). 
+`APPLICATION_CREDENTIALS` - To authorize in GCP you need to have a [service account key](https://console.cloud.google.com/apis/credentials/serviceaccountkey).
 The recommended way to store the credentials in the secrets it previously encode file with base64. To encode a JSON file use: `base64 ~/<account_id>.json`. Or you can put a JSON structure to the secret.
 
 `PROJECT_ID` - must be provided to activate a specific project.
+
+### Using access tokens
+
+Alternatively, you can set the environment variable `CLOUDSDK_AUTH_ACCESS_TOKEN` to a valid OAUTH token; this allows the step to be used with [Workload Identity Federation](https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions).
+
+```yaml
+- id: google_cloud_auth
+  name: Authenticate to Google Cloud
+  uses: google-github-actions/auth@v1
+  with:
+    workload_identity_provider: 'projects/${{ secrets.gcp_project_number }}/locations/global/workloadIdentityPools/${{ secrets.workload_identity_pool }/providers/${{ secrets.workload_identity_provider }}'
+    service_account: '${{ secrets.workload_identity_service_account }}@${{ secrets.gcp_project_name }}.iam.gserviceaccount.com'
+    token_format: 'access_token'
+
+- uses: actions-hub/gcloud@master
+  env:
+    PROJECT_ID: ${{ secrets.gcp_project_name }}
+    CLOUDSDK_AUTH_ACCESS_TOKEN: '${{ steps.google_cloud_auth.outputs.access_token }}'
+  with:
+    args: info
+```
+
+Two important notes:
+
+1. If `CLOUDSDK_AUTH_ACCESS_TOKEN` is set, it will override any other auth configuration
+2. The `gsutil` command does not support the `CLOUDSDK_AUTH_ACCESS_TOKEN` variable; use [gcloud storage](https://cloud.google.com/sdk/gcloud/reference/storage) to interact with GCS.
 
 ### Inputs
 
