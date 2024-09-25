@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:493.0.0-alpine
+FROM google/cloud-sdk:494.0.0-alpine
 
 COPY LICENSE README.md /
 
